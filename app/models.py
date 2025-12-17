@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
-
+from decimal import Decimal
 
 # ----------------- Teacher -----------------
 class Teacher(models.Model):
@@ -45,10 +45,21 @@ class Course(models.Model):
         related_name='courses',
         on_delete=models.CASCADE
     )
+    image = models.ImageField(
+        upload_to='courses/',
+        null=True,
+        blank=True
+    )
+    
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
     overview = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    price = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        default=Decimal("0.00")
+    )
     
 
     class Meta:
